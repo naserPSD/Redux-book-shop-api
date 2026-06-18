@@ -1,19 +1,35 @@
-import { Button } from "@/components/ui/button"
+// App.js
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
+import HomePage from "./components/pages/HomePage"
+import BookCreate from "./components/pages/BookCreate"
+import BookEdit from "./components/pages/BookEdit"
+import Login from "./components/pages/Login"
+import { useSelector } from "react-redux"
+import Product from "./components/pages/Product"
 
 export function App() {
+  const { isSuccess } = useSelector((state) => state.auth)
+
   return (
-    <div className="flex min-h-svh p-6">
-      <div className="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
-        <div>
-          <h1 className="font-medium">Project ready!</h1>
-          <p>You may now add components and start building.</p>
-          <p>We&apos;ve already added the button component for you.</p>
-          <Button className="mt-2">Button</Button>
-        </div>
-        <div className="font-mono text-xs text-muted-foreground">
-          (Press <kbd>d</kbd> to toggle dark mode)
-        </div>
-      </div>
+    <div className="px-5 py-5 text-center text-4xl">
+      <BrowserRouter>
+        <Routes>
+          {!isSuccess ? (
+            <>
+              <Route path="/login" element={<Login />} />
+              <Route path="*" element={<Navigate to="/login" />} />
+            </>
+          ) : (
+            <>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/create" element={<BookCreate />} />
+              <Route path="/product/:id" element={<Product />} />
+              <Route path="/edit/:id" element={<BookEdit />} />
+              <Route path="/login" element={<Navigate to="/" />} />
+            </>
+          )}
+        </Routes>
+      </BrowserRouter>
     </div>
   )
 }

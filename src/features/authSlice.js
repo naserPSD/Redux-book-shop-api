@@ -1,0 +1,129 @@
+import { createSlice } from "@reduxjs/toolkit"
+
+const dummyUsers = [
+  { email: "test@gmail.com", password: "123456" },
+  { email: "admin@gmail.com", password: "admin123" },
+  { email: "user@gmail.com", password: "userpass" },
+]
+
+const initialState = {
+  user: null,
+  isSuccess: false,
+  isError: false,
+  errorMessage: "",
+  books: [
+    {
+      id: 1,
+      title: "JavaScript Basics",
+      author: "John Doe",
+      regularPrice: 200,
+      offerPrice: 150,
+      stock: "Available",
+      quantity: 10,
+      category: "Programming",
+    },
+    {
+      id: 2,
+      title: "React Guide",
+      author: "Jane Smith",
+      regularPrice: 300,
+      offerPrice: 250,
+      stock: "Limited",
+      quantity: 5,
+      category: "Programming",
+    },
+    {
+      id: 3,
+      title: "Redux Toolkit",
+      author: "Alex Johnson",
+      regularPrice: 250,
+      offerPrice: null,
+      stock: "Available",
+      quantity: 7,
+      category: "Programming",
+    },
+    {
+      id: 4,
+      title: "Basic HTML",
+      author: "Johnson",
+      regularPrice: 250,
+      offerPrice: 200,
+      stock: "Out of Stock",
+      quantity: 7,
+      category: "Programming",
+    },
+  ],
+}
+
+const authSlice = createSlice({
+  name: "auth",
+  initialState,
+  reducers: {
+    // Login reducer (manual)
+    login: (state, action) => {
+      const { email, password } = action.payload
+      const foundUser = dummyUsers.find(
+        (u) => u.email === email && u.password === password
+      )
+
+      if (foundUser) {
+        state.user = { email: foundUser.email }
+        state.isSuccess = true
+        state.isError = false
+        state.errorMessage = ""
+      } else {
+        state.isSuccess = false
+        state.isError = true
+        state.errorMessage = "Invalid credentials"
+      }
+    },
+
+    // Logout
+    logout: (state) => {
+      state.user = null
+      state.isSuccess = false
+    },
+
+    // Reset
+    resetAuth: (state) => {
+      state.isSuccess = false
+      state.isError = false
+      state.errorMessage = ""
+    },
+
+    // Book Management Reducers
+    addBook: (state, action) => {
+      state.books.unshift(action.payload)
+    },
+    updateBook: (state, action) => {
+      const {
+        id,
+        title,
+        author,
+        regularPrice,
+        offerPrice,
+        stock, //destructure
+        quantity,
+        category,
+      } = action.payload
+      const existingBook = state.books.find((book) => book.id === id)
+      if (existingBook) {
+        existingBook.title = title
+        existingBook.author = author
+        existingBook.regularPrice = regularPrice
+        existingBook.offerPrice = offerPrice
+        existingBook.stock = stock // ✅ stock আপডেট হবে
+        existingBook.quantity = quantity
+        existingBook.category = category
+      }
+    },
+    deleteBook: (state, action) => {
+      const id = action.payload
+      state.books = state.books.filter((book) => book.id !== id)
+    },
+  },
+})
+
+export const { login, logout, resetAuth, addBook, updateBook, deleteBook } =
+  authSlice.actions
+export default authSlice.reducer

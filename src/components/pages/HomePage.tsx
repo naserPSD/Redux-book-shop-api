@@ -1,7 +1,7 @@
-import React, { useState } from "react"
+import { useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
+import type { RootState } from "../../app/store"
 import { deleteBook } from "../../features/authSlice"
-
 import {
   Dialog,
   DialogContent,
@@ -24,14 +24,14 @@ import { Input } from "@/components/ui/input"
 const HomePage = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const books = useSelector((state) => state.auth.books)
+  const books = useSelector((state: RootState) => state.auth.books)
 
   const [searchId, setSearchId] = useState("")
 
-  const handleEdit = (id) => {
+  const handleEdit = (id: number) => {
     navigate(`/edit/${id}`)
   }
-  const handleDelete = (id) => {
+  const handleDelete = (id: number) => {
     dispatch(deleteBook(id))
   }
   const filteredBooks =
@@ -102,7 +102,7 @@ const HomePage = () => {
                 <p className="text-sm">
                   Category: <span className="font-medium">{book.category}</span>
                 </p>
-                <div className="flex justify-center py-2">
+                <div className="flex justify-center">
                   <Button
                     onClick={() => navigate(`/product/${book.id}`)}
                     className="ml-2 rounded bg-green-500 px-3 py-1 text-white hover:bg-green-600"

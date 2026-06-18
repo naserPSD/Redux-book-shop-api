@@ -1,6 +1,6 @@
-import React from "react"
 import { useParams } from "react-router-dom"
 import { useSelector } from "react-redux"
+import type { RootState } from "../../app/store"
 import {
   Card,
   CardHeader,
@@ -12,7 +12,7 @@ import { Button } from "../ui/button"
 
 const Product = () => {
   const { id } = useParams()
-  const book = useSelector((state) =>
+  const book = useSelector((state: RootState) =>
     state.auth.books.find((b) => b.id === Number(id))
   )
 

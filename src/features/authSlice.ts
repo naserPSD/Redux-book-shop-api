@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
+import type { PayloadAction } from "@reduxjs/toolkit"
 
 const dummyUsers = [
   { email: "test@gmail.com", password: "123456" },
@@ -6,7 +7,26 @@ const dummyUsers = [
   { email: "user@gmail.com", password: "userpass" },
 ]
 
-const initialState = {
+type Book = {
+  id: number
+  title: string
+  author: string
+  regularPrice: number
+  offerPrice: number | null | string
+  stock: string
+  quantity: number
+  category: string
+}
+
+export type AuthState = {
+  user: { email: string } | null
+  isSuccess: boolean
+  isError: boolean
+  errorMessage: string
+  books: Book[]
+}
+
+const initialState: AuthState = {
   user: null,
   isSuccess: false,
   isError: false,
@@ -60,7 +80,10 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     // Login reducer (manual)
-    login: (state, action) => {
+    login: (
+      state,
+      action: PayloadAction<{ email: string; password: string }>
+    ) => {
       const { email, password } = action.payload
       const foundUser = dummyUsers.find(
         (u) => u.email === email && u.password === password
@@ -92,10 +115,10 @@ const authSlice = createSlice({
     },
 
     // Book Management Reducers
-    addBook: (state, action) => {
+    addBook: (state, action: PayloadAction<Book>) => {
       state.books.unshift(action.payload)
     },
-    updateBook: (state, action) => {
+    updateBook: (state, action: PayloadAction<Book>) => {
       const {
         id,
         title,
@@ -117,7 +140,7 @@ const authSlice = createSlice({
         existingBook.category = category
       }
     },
-    deleteBook: (state, action) => {
+    deleteBook: (state, action: PayloadAction<number>) => {
       const id = action.payload
       state.books = state.books.filter((book) => book.id !== id)
     },

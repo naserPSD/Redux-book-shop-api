@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { addBook } from "../../features/authSlice"
 import {
@@ -23,8 +23,19 @@ const BookCreate = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  const [newBook, setNewBook] = useState({
-    id: Date.now(),
+  type BookForm = {
+    id: number | null
+    title: string
+    author: string
+    regularPrice: string
+    offerPrice: string
+    stock: string
+    quantity: string
+    category: string
+  }
+
+  const [newBook, setNewBook] = useState<BookForm>({
+    id: null,
     title: "",
     author: "",
     regularPrice: "",
@@ -34,11 +45,21 @@ const BookCreate = () => {
     category: "",
   })
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    dispatch(addBook(newBook))
-    setNewBook({
+    const book = {
       id: Date.now(),
+      title: newBook.title,
+      author: newBook.author,
+      regularPrice: Number(newBook.regularPrice) || 0,
+      offerPrice: newBook.offerPrice ? Number(newBook.offerPrice) : null,
+      stock: newBook.stock,
+      quantity: Number(newBook.quantity) || 0,
+      category: newBook.category,
+    }
+    dispatch(addBook(book))
+    setNewBook({
+      id: null,
       title: "",
       author: "",
       regularPrice: "",

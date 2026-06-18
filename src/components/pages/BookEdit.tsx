@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react"
+import { useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
+import type { RootState } from "../../app/store"
 import { useParams, useNavigate } from "react-router-dom"
 import { updateBook, deleteBook } from "../../features/authSlice"
 import {
@@ -24,39 +25,49 @@ const BookEdit = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const book = useSelector((state) =>
+  const book = useSelector((state: RootState) =>
     state.auth.books.find((b) => b.id === Number(id))
   )
 
-  const [editedBook, setEditedBook] = useState({
-    id: Number(id),
-    title: "",
-    author: "",
-    regularPrice: "",
-    offerPrice: "",
-    stock: "",
-    quantity: "",
-    category: "",
-  })
-
-  useEffect(() => {
+  const [editedBook, setEditedBook] = useState(() => {
     if (book) {
-      setEditedBook({
+      return {
         id: book.id,
         title: book.title,
         author: book.author,
-        regularPrice: book.regularPrice,
-        offerPrice: book.offerPrice || "",
+        regularPrice: String(book.regularPrice),
+        offerPrice: book.offerPrice != null ? String(book.offerPrice) : "",
         stock: book.stock || "",
-        quantity: book.quantity,
+        quantity: String(book.quantity),
         category: book.category,
-      })
+      }
     }
-  }, [book])
 
-  const handleUpdate = (e) => {
+    return {
+      id: Number(id),
+      title: "",
+      author: "",
+      regularPrice: "",
+      offerPrice: "",
+      stock: "",
+      quantity: "",
+      category: "",
+    }
+  })
+
+  const handleUpdate = (e: React.FormEvent) => {
     e.preventDefault()
-    dispatch(updateBook(editedBook))
+    const bookPayload = {
+      id: Number(editedBook.id),
+      title: editedBook.title,
+      author: editedBook.author,
+      regularPrice: Number(editedBook.regularPrice) || 0,
+      offerPrice: editedBook.offerPrice ? Number(editedBook.offerPrice) : null,
+      stock: editedBook.stock,
+      quantity: Number(editedBook.quantity) || 0,
+      category: editedBook.category,
+    }
+    dispatch(updateBook(bookPayload))
     navigate("/")
   }
 

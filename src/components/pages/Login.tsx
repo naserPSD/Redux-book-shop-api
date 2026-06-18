@@ -1,5 +1,6 @@
-import React, { useState } from "react"
+import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
+import type { RootState } from "../../app/store"
 import { login, resetAuth } from "../../features/authSlice"
 import { useNavigate } from "react-router-dom"
 import {
@@ -13,9 +14,9 @@ import {
 const Login = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { isSuccess, isError, errorMessage } = useSelector((state) => {
-    return state.auth
-  })
+  const { isSuccess, isError, errorMessage } = useSelector(
+    (state: RootState) => state.auth
+  )
   const handleReset = () => {
     dispatch(resetAuth())
     setFormData({ email: "", password: "" })
@@ -25,11 +26,11 @@ const Login = () => {
     password: "",
   })
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     dispatch(login(formData))
 

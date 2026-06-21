@@ -53,7 +53,7 @@ const Product = () => {
             Category: <span className="font-medium">{book.category}</span>
           </p>
         </CardContent>
-        <CardFooter className="mt-50 flex justify-center bg-gray-100">
+        <CardFooter className="bg-black-400 mt-50 flex justify-center">
           <Button className="rounded bg-blue-500 px-6 py-3 text-lg text-white hover:bg-blue-600">
             Buy Now
           </Button>

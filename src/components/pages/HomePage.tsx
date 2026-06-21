@@ -1,4 +1,4 @@
-import { useState } from "react"
+import React, { useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import type { RootState } from "../../app/store"
 import { deleteBook } from "../../features/authSlice"
@@ -20,8 +20,10 @@ import {
 import { useNavigate } from "react-router-dom"
 import { Button } from "../ui/button"
 import { Input } from "@/components/ui/input"
+import { Calendar } from "@/components/ui/calendar"
 
 const HomePage = () => {
+  const [date, setDate] = React.useState<Date | undefined>(new Date())
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const books = useSelector((state: RootState) => state.auth.books)
@@ -66,7 +68,15 @@ const HomePage = () => {
           </Button>
         </div>
       </div>
-
+      <div>
+        <Calendar
+          mode="single"
+          selected={date}
+          onSelect={setDate}
+          className="rounded-lg border"
+        />
+      </div>
+      <br />
       {filteredBooks.length === 0 ? (
         <p>No books available</p>
       ) : (

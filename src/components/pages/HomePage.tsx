@@ -102,6 +102,7 @@ const HomePage = () => {
                 <p className="text-sm">
                   Category: <span className="font-medium">{book.category}</span>
                 </p>
+                <br />
                 <div className="flex justify-center">
                   <Button
                     onClick={() => navigate(`/product/${book.id}`)}

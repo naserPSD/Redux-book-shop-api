@@ -83,7 +83,7 @@ const BookEdit = () => {
   return (
     <div className="flex flex-col items-center">
       <h3 className="mt-8 mb-3 text-xl font-bold">Edit Book</h3>
-      <Card className="max-w-sm shadow-md">
+      <Card className="max-w-sm p-15 shadow-md">
         <CardHeader>
           <CardTitle className="text-lg font-semibold">Book Form</CardTitle>
         </CardHeader>

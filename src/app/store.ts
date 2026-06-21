@@ -1,4 +1,3 @@
-// app/store.js
 import { configureStore } from "@reduxjs/toolkit"
 import authReducer from "../features/authSlice"
 import type { AuthState } from "../features/authSlice"

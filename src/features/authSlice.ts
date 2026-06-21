@@ -79,7 +79,6 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    // Login reducer (manual)
     login: (
       state,
       action: PayloadAction<{ email: string; password: string }>
@@ -101,20 +100,16 @@ const authSlice = createSlice({
       }
     },
 
-    // Logout
     logout: (state) => {
       state.user = null
       state.isSuccess = false
     },
 
-    // Reset
     resetAuth: (state) => {
       state.isSuccess = false
       state.isError = false
       state.errorMessage = ""
     },
-
-    // Book Management Reducers
     addBook: (state, action: PayloadAction<Book>) => {
       state.books.unshift(action.payload)
     },
@@ -135,7 +130,7 @@ const authSlice = createSlice({
         existingBook.author = author
         existingBook.regularPrice = regularPrice
         existingBook.offerPrice = offerPrice
-        existingBook.stock = stock // ✅ stock আপডেট হবে
+        existingBook.stock = stock
         existingBook.quantity = quantity
         existingBook.category = category
       }
